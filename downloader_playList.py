@@ -15,18 +15,22 @@ errorListVideos = []
 for video in playListTap.find_elements_by_xpath('//*[@id="video-title"]'):
     listVideos.append(video.get_attribute('href').split('&list')[0])
 
+def downloadVideo(url):
+    downloadTap.get('https://ar.savefrom.net/' + url)
+    time.sleep(1)
+
+    downloadTap.find_element_by_xpath('//*[@id="sf_submit"]').click()
+    time.sleep(5)
+    # click on download button
+    downloadTap.find_element_by_xpath('//*[@id="sf_result"]/div/div/div[2]/div[2]/div[1]').click()
+    time.sleep(1)
+
 playListTap.quit()
 for i in range(len(listVideos)):
     try:
-        downloadTap.get('https://ar.savefrom.net/' + listVideos[i])
-        time.sleep(2)
-
-        downloadTap.find_element_by_xpath('//*[@id="sf_submit"]').click()
-        time.sleep(7)
-        # click on download button
-        downloadTap.find_element_by_xpath('//*[@id="sf_result"]/div/div/div[2]/div[2]/div[1]').click()
-        time.sleep(1)
-
+        downloadVideo(listVideos[i])
+        if(i%10):
+            time.sleep(30)
         print(str(i + 1) + " done")
     except:
         print(listVideos[i])
@@ -36,20 +40,10 @@ for i in range(len(listVideos)):
 time.sleep(300)
 for i in range(len(errorListVideos)):
     try:
-        downloadTap.get('https://ar.savefrom.net/' + errorListVideos[i])
-        time.sleep(2)
+        downloadVideo(errorListVideos[i])
 
-        downloadTap.find_element_by_xpath('//*[@id="sf_submit"]').click()
-        time.sleep(7)
-        # click on download button
-        downloadTap.find_element_by_xpath('//*[@id="sf_result"]/div/div/div[2]/div[2]/div[1]').click()
-        time.sleep(1)
-
-        # error
         print(str(i + 1) + " done")
     except:
         print(errorListVideos[i])
         print(i + 1)
 
-downloadTap.quit()
-exit()
