@@ -23,27 +23,19 @@ def downloadVideo(url):
     time.sleep(5)
     # click on download button
     downloadTap.find_element_by_xpath('//*[@id="sf_result"]/div/div/div[2]/div[2]/div[1]').click()
-    time.sleep(1)
+    time.sleep(2)
 
 playListTap.quit()
 for i in range(len(listVideos)):
-    try:
-        downloadVideo(listVideos[i])
-        if(i%10):
-            time.sleep(30)
-        print(str(i + 1) + " done")
-    except:
-        print(listVideos[i])
-        errorListVideos.append(listVideos[i])
-        print(i + 1)
-
-time.sleep(300)
-for i in range(len(errorListVideos)):
-    try:
-        downloadVideo(errorListVideos[i])
-
-        print(str(i + 1) + " done")
-    except:
-        print(errorListVideos[i])
-        print(i + 1)
+    while True:
+        try:
+            downloadVideo(listVideos[i])
+            if i%10:
+                time.sleep(30)
+            print(str(i + 1) + " done")
+            break
+        except:
+            print(listVideos[i])
+            errorListVideos.append(listVideos[i])
+            print(i + 1)
 
